@@ -1,10 +1,10 @@
 from enum import Enum
 
 class UserType(Enum):
-    COMUM = "comum"
+    COMUM = "Comum"
     VIP = "VIP"
 
 class StatusVaga(Enum):
-    LIVRE = "livre"
-    OCUPADA = "ocupada"
-    RESERVADA = "reservada"
+    LIVRE = "Livre"
+    OCUPADA = "Ocupada"
+    RESERVADA = "Reservada"
