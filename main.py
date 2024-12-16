@@ -2,6 +2,7 @@ from models.enums import UserType, StatusVaga
 from models.usuarios import Usuario, UsuarioAdmin
 from models.reserva import GerenciadorDeReservas
 from models.vaga import GerenciadorDeVagas, Vaga
+from datetime import datetime
 
 def main():
     # Instancia o gerenciador de vagas
@@ -15,22 +16,23 @@ def main():
     # Visualizar Vagas
     gerenciador_vagas.ver_vagas()
 
-    gerenciador_reservas = GerenciadorDeReservas()
+    gerenciador_reservas = GerenciadorDeReservas(gerenciador_vagas)
 
     # Reservar Vagas
-    gerenciador_reservas.reservar_vaga("usuario1", gerenciador_vagas.buscar_vaga_por_id(1))
-    gerenciador_reservas.reservar_vaga("usuario2", gerenciador_vagas.buscar_vaga_por_id(2))
-    gerenciador_reservas.reservar_vaga("usuario1", gerenciador_vagas.buscar_vaga_por_id(1))  # Tenta reservar vaga já ocupada
+    gerenciador_reservas.criar_reserva("João", 1, datetime.now())
+    gerenciador_reservas.criar_reserva("Maria", 2, datetime.now())
+    gerenciador_reservas.criar_reserva("Pedro", 1, datetime.now())
 
     # Visualizar Reservas
     gerenciador_reservas.ver_reservas()
 
+    print("\n==== REMOVENDO VAGA ====")
     # Remover Reserva
-    gerenciador_reservas.remover_reserva(1)
+    gerenciador_reservas.cancelar_reserva(1)
     gerenciador_reservas.ver_reservas()
 
     # Tentar remover uma reserva inexistente
-    gerenciador_reservas.remover_reserva(99)
+    gerenciador_reservas.cancelar_reserva(99)
 
     
     print("\n==== SISTEMA ENCERRADO ====")

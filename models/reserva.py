@@ -20,10 +20,10 @@ class GerenciadorDeReservas:
     def __init__(self, gerenciador_vagas):
         self.reservas = []  # Lista para armazenar reservas
         self.gerenciador_vagas = gerenciador_vagas  # Referência ao gerenciador de vagas
-
+        self.countReservas = 0
 
     # Método para criar uma reserva
-    def criar_reserva(self, id, usuario, id_vaga, data_hora_reserva: datetime):
+    def criar_reserva(self, usuario, id_vaga, data_hora_reserva: datetime):
 
         # Verifica se a vaga existe
         vaga = self.gerenciador_vagas.buscar_vaga_por_id(id_vaga)
@@ -37,6 +37,9 @@ class GerenciadorDeReservas:
             return
 
         # Cria a reserva
+        id = self.countReservas
+        self.countReservas += 1
+        
         nova_reserva = Reserva(id, usuario, vaga, data_hora_reserva)
         self.reservas.append(nova_reserva)
 
