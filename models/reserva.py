@@ -39,7 +39,7 @@ class GerenciadorDeReservas:
         # Cria a reserva
         id = self.countReservas
         self.countReservas += 1
-        
+
         nova_reserva = Reserva(id, usuario, vaga, data_hora_reserva)
         self.reservas.append(nova_reserva)
 
@@ -80,3 +80,13 @@ class GerenciadorDeReservas:
         # Remove a reserva da lista
         self.reservas.remove(reserva)
         print(f"Reserva cancelada com sucesso: ID {id}")
+
+    def ver_vagas_disponiveis_para_reserva(self, gerenciador_vagas):
+        print("Vagas disponíveis:")
+        encontrou = False
+        for vaga in gerenciador_vagas.vagas:
+            if vaga.status == StatusVaga.LIVRE:
+                print(vaga)
+                encontrou = True
+        if not encontrou:
+            print("Nenhuma vaga disponível.")
