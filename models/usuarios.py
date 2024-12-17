@@ -1,18 +1,13 @@
-from models.enums import UserType
-
 class Usuario:
-    def __init__(self, id, nome, email, tipo: UserType, telefone):
+    def __init__(self, id, nome, email):
         self.ID = id
         self.nome = nome
-        self.email = email
-        self.tipo = tipo
-        self.telefone = telefone
         self.login = login
         self.senha = senha
 
     # Método para fazer uma reserva
-    def fazer_reserva(self, gerenciador_reservas, reserva_id, id_vaga, data_hora_reserva: datetime):
-        gerenciador_reservas.criar_reserva(reserva_id, self.nome, id_vaga, data_hora_reserva)
+    def fazer_reserva(self, gerenciador_reservas, id_vaga, data_hora_reserva: datetime):
+        gerenciador_reservas.criar_reserva( self.nome, id_vaga, data_hora_reserva)
         print(f"Reserva feita com sucesso para o usuário {self.nome}!")
 
     # Método para visualizar reservas do usuário
@@ -41,9 +36,8 @@ class Usuario:
         ver_vagas_disponiveis_para_reserva(gerenciador_reservas)
 
 class Admin(Usuario):
-    def __init__(self, id, nome, nivel_acesso, login, senha):
-        super().__init__(id, nome, None, None, None)
-        self.nivelDeAcesso = nivel_acesso
+    def __init__(self, id, nome, login, senha):
+        super().__init__(id, nome, "admin", "admin")
         self.login = login
         self.senha = senha
 
@@ -124,8 +118,8 @@ class Funcionario:
         print(f"Erro: Reserva com ID {id_reserva} não encontrada.")
 
     # Método para criar uma reserva para um usuário
-    def criar_reserva_usuario(self, gerenciador_reservas, id_reserva, usuario, id_vaga, data_hora_reserva):
-        gerenciador_reservas.criar_reserva(id_reserva, usuario, id_vaga, data_hora_reserva)
+    def criar_reserva_usuario(self, gerenciador_reservas, usuario, id_vaga, data_hora_reserva):
+        gerenciador_reservas.criar_reserva(usuario.nome, id_vaga, data_hora_reserva)
 
     # Método para cadastrar um novo usuário
     def cadastrar_usuario(self, usuarios, id, nome, email, tipo, telefone):
