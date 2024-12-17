@@ -40,21 +40,67 @@ class Usuario:
     reservas):
         ver_vagas_disponiveis_para_reserva(gerenciador_reservas)
 
-# class Admin(Usuario):
-#     def __init__(self, id, nome, nivel_acesso, login, senha):
-#         super().__init__(id, nome, None, None, None)
-#         self.nivelDeAcesso = nivel_acesso
-#         self.login = login
-#         self.senha = senha
-    
-#     # Herda todas os metodos da classe funcionario e usuario
-#     # Cadastrar funcionario
-#     # Remover Funcionario
-#     # Cadastrar Vaga
-#     # Remover Vaga 
-#     # Ver Relatorio de Uso
-#     # Cadastrar Usuario
-#     # Remover Usuario
+class Admin(Usuario):
+    def __init__(self, id, nome, nivel_acesso, login, senha):
+        super().__init__(id, nome, None, None, None)
+        self.nivelDeAcesso = nivel_acesso
+        self.login = login
+        self.senha = senha
+
+    # Método para cadastrar um novo funcionário
+    def cadastrar_funcionario(self, lista_funcionarios, id, nome, cargo, login, senha):
+        for funcionario in lista_funcionarios:
+            if funcionario.ID == id:
+                print(f"Erro: Funcionário com ID {id} já existe.")
+                return
+        novo_funcionario = Funcionario(id, nome, cargo, login, senha)
+        lista_funcionarios.append(novo_funcionario)
+        print(f"Funcionário {nome} cadastrado com sucesso pelo administrador {self.nome}.")
+
+    # Método para remover um funcionário
+    def remover_funcionario(self, lista_funcionarios, id_funcionario):
+        for funcionario in lista_funcionarios:
+            if funcionario.ID == id_funcionario:
+                lista_funcionarios.remove(funcionario)
+                print(f"Funcionário {funcionario.nome} removido com sucesso pelo administrador {self.nome}.")
+                return
+        print(f"Erro: Funcionário com ID {id_funcionario} não encontrado.")
+
+    # Método para cadastrar uma nova vaga
+    def cadastrar_vaga(self, gerenciador_vagas, id, localizacao):
+        gerenciador_vagas.criar_vaga(id, localizacao)
+        print(f"Vaga {localizacao} cadastrada com sucesso pelo administrador {self.nome}.")
+
+    # Método para remover uma vaga
+    def remover_vaga(self, gerenciador_vagas, id_vaga):
+        vaga = gerenciador_vagas.buscar_vaga_por_id(id_vaga)
+        if not vaga:
+            print(f"Erro: Vaga com ID {id_vaga} não encontrada.")
+            return
+        gerenciador_vagas.vagas.remove(vaga)
+        print(f"Vaga {vaga.localizacao} removida com sucesso pelo administrador {self.nome}.")
+
+    # Método para gerar um relatório de uso
+    def ver_relatorio_uso(self, gerenciador_vagas, gerenciador_reservas):
+        total_vagas = len(gerenciador_vagas.vagas)
+        vagas_ocupadas = sum(1 for vaga in gerenciador_vagas.vagas if vaga.status == StatusVaga.OCUPADA)
+        vagas_reservadas = sum(1 for vaga in gerenciador_vagas.vagas if vaga.status == StatusVaga.RESERVADA)
+        vagas_livres = total_vagas - (vagas_ocupadas + vagas_reservadas)
+
+        print("Relatório de Uso:")
+        print(f"Total de vagas: {total_vagas}")
+        print(f"Vagas ocupadas: {vagas_ocupadas}")
+        print(f"Vagas reservadas: {vagas_reservadas}")
+        print(f"Vagas livres: {vagas_livres}")
+
+        print("\nDetalhes das Reservas:")
+        for reserva in gerenciador_reservas.reservas:
+            print(reserva)
+
+    # Método para herdar funcionalidades do Usuario e Funcionario
+    def herdar_metodos_usuario_funcionario(self, **kwargs):
+        # Pode chamar métodos específicos de ambas as classes
+        pass
 
 class Funcionario:
     def __init__(self, id, nome, cargo, login, senha):
