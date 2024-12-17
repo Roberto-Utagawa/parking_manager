@@ -1,5 +1,10 @@
+from datetime import datetime
+from models.reserva import *
+from models.vaga import *
+from models.enums import *
+
 class Usuario:
-    def __init__(self, id, nome, email):
+    def __init__(self, id, nome, login, senha):
         self.ID = id
         self.nome = nome
         self.login = login
@@ -31,13 +36,13 @@ class Usuario:
         print(f"Erro: Reserva {reserva_id} não encontrada para o usuário {self.nome}.")
 
     # Método para visualizar vagas disponíveis
-    def ver_vagas_disponiveis(self, gerenciador_
-    reservas):
-        ver_vagas_disponiveis_para_reserva(gerenciador_reservas)
+    def ver_vagas_disponiveis(self, gerenciador_reservas):
+        gerenciador_reservas.ver_vagas_disponiveis_para_reserva()
 
 class Admin(Usuario):
     def __init__(self, id, nome, login, senha):
-        super().__init__(id, nome, "admin", "admin")
+        self.id = id
+        self.nome =nome
         self.login = login
         self.senha = senha
 
@@ -76,7 +81,7 @@ class Admin(Usuario):
 
     # Método para gerar um relatório de uso
     def ver_relatorio_uso(self, gerenciador_vagas, gerenciador_reservas):
-        total_vagas = len(gerenciador_vagas.vagas)
+        total_vagas = l1en(gerenciador_vagas.vagas)
         vagas_ocupadas = sum(1 for vaga in gerenciador_vagas.vagas if vaga.status == StatusVaga.OCUPADA)
         vagas_reservadas = sum(1 for vaga in gerenciador_vagas.vagas if vaga.status == StatusVaga.RESERVADA)
         vagas_livres = total_vagas - (vagas_ocupadas + vagas_reservadas)
@@ -150,13 +155,13 @@ class Funcionario:
             print(reserva)
 
     # Método para visualizar vagas disponíveis
-    def ver_vagas_disponiveis(self, gerenciador_vagas):
-        vagas_disponiveis = [
-            vaga for vaga in gerenciador_vagas.vagas if vaga.status == StatusVaga.LIVRE
-        ]
-        if not vagas_disponiveis:
-            print("Nenhuma vaga disponível.")
-            return
-        print("Vagas Disponíveis:")
-        for vaga in vagas_disponiveis:
-            print(vaga)
+    # def ver_vagas_disponiveis(self, gerenciador_vagas):
+    #     vagas_disponiveis = [
+    #         vaga for vaga in gerenciador_vagas.vagas if vaga.status == StatusVaga.LIVRE
+    #     ]
+    #     if not vagas_disponiveis:
+    #         print("Nenhuma vaga disponível.")
+    #         return
+    #     print("Vagas Disponíveis:")
+    #     for vaga in vagas_disponiveis:
+    #         print(vaga)

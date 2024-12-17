@@ -81,10 +81,10 @@ class GerenciadorDeReservas:
         self.reservas.remove(reserva)
         print(f"Reserva cancelada com sucesso: ID {id}")
 
-    def ver_vagas_disponiveis_para_reserva(self, gerenciador_vagas):
+    def ver_vagas_disponiveis_para_reserva(self):
         print("Vagas disponíveis:")
         encontrou = False
-        for vaga in gerenciador_vagas.vagas:
+        for vaga in self.gerenciador_vagas.vagas:
             if vaga.status == StatusVaga.LIVRE:
                 print(vaga)
                 encontrou = True
