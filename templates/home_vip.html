@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gestão de Estacionamento</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+        }
+        .sidebar {
+            height: 100vh;
+            background-color: #f8f9fa;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        .sidebar a {
+            display: block;
+            padding: 10px 20px;
+            color: #333;
+            text-decoration: none;
+        }
+        .sidebar a:hover, .sidebar .active {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        .logout-btn {
+            position: absolute;
+            bottom: 20px;
+        }
+        .status-livre {
+            color: green;
+            font-weight: bold;
+        }
+        .status-ocupada {
+            color: red;
+            font-weight: bold;
+        }
+        .status-reservada {
+            color: orange;
+            font-weight: bold;
+        }
+    </style>
+    <title>Gestão de Estacionamento</title>
+  </head>
+  <body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 sidebar">
+                <h4 class="text-center py-3">🚗 Gestão de Estacionamento</h4>
+                <a href="{% url 'home_vip'%}" class="active">Vagas Disponíveis</a>
+                <a href="{% url 'registrar_entrada_vip' %}">Registrar Entrada</a>
+                <a href="{% url 'registrar_saida_vip' %}">Registrar Saída</a>
+                <a href="{% url 'reservar' %}">Reservar Vaga</a>
+                <a href="{% url 'cancelar_reserva' %}">Cancelar Reserva</a>
+                <a href="{% url 'historico_vip' %}">Histórico de Uso</a>
+                <a href="{% url 'meu_plano' %}">Ver Planos</a>
+                <a href="{% url 'login' %}" class="text-danger logout-btn">Logout</a>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-10 p-4">
+            <h2 class="mt-2">Vagas Disponíveis</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vaga in vagas %}
+                        <tr>
+                            <td>{{ vaga.numero }}</td>
+                            <td>
+                                <span 
+                                    class="{% if vaga.status == 'Livre' %}status-livre
+                                             {% elif vaga.status == 'Ocupada' %}status-ocupada
+                                             {% elif vaga.status == 'Reservada' %}status-reservada
+                                             {% endif %}">
+                                    {{ vaga.status }}
+                                </span>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

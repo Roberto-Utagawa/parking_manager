@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gestão de Estacionamento</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+        }
+        .sidebar {
+            height: 100vh;
+            background-color: #f8f9fa;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        .sidebar a {
+            display: block;
+            padding: 10px 20px;
+            color: #333;
+            text-decoration: none;
+        }
+        .sidebar a:hover, .sidebar .active {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        .logout-btn {
+            position: absolute;
+            bottom: 20px;
+        }
+    </style>
+    <title>Gestão de Estacionamento</title>
+  </head>
+  <body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 sidebar">
+                <h4 class="text-center py-3">🚗 Gestão de Estacionamento</h4>
+                <a href="{% url 'home_vip'%}">Vagas Disponíveis</a>
+                <a href="{% url 'registrar_entrada_vip' %}" class="active">Registrar Entrada</a>
+                <a href="{% url 'registrar_saida_vip' %}">Registrar Saída</a>
+                <a href="{% url 'reservar' %}">Reservar Vaga</a>
+                <a href="{% url 'cancelar_reserva' %}">Cancelar Reserva</a>
+                <a href="{% url 'historico_vip' %}">Histórico de Uso</a>
+                <a href="{% url 'meu_plano' %}">Ver Planos</a>
+                <a href="{% url 'login' %}" class="text-danger logout-btn">Logout</a>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-10 p-4">
+                <h2 class="mt-2">Registrar Entrada</h2>
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="cpf" class="form-label">CPF</label>
+                            <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 11111111111" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="numero_vaga" class="form-label">Número da Vaga</label>
+                            <input type="text" class="form-control" id="numero_vaga" name="numero_vaga" placeholder="Ex: 1" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Registrar Entrada</button>
+                    </form>
+                    {% if messages %}
+                        <script>
+                            {% for message in messages %}
+                                Swal.fire({
+                                    icon: "{% if message.tags == 'success' %}success{% else %}error{% endif %}",
+                                    title: "{% if message.tags == 'success' %}Sucesso!{% else %}Erro{% endif %}",
+                                    text: "{{ message }}",
+                                    confirmButtonColor: '#007bff',
+                                });
+                            {% endfor %}
+                        </script>
+                    {% endif %}
+                </div>
+            </main>
+        </div>
+    </div>
+
+</body>
+</html>
